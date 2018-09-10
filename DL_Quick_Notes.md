@@ -1,5 +1,13 @@
 # This document is quick reference to key concepts and their definitions
 
+- Terms:
+  - **Numerical, Categorical**
+  - **Discrete, Continuous**
+  - **Nominal Numbers**: Nominal numbers or categorical numbers are numeric codes, meaning numerals used for labelling or identification only. The values of the numerals are irrelevant, and they do not indicate quantity, rank, or any other measurement. e.g. SSN
+  - **Polynomial**:
+  In mathematics, a polynomial is an expression consisting of variables (also called indeterminates) and coefficients, that involves only the operations of addition, subtraction, multiplication, and non-negative integer exponents of variables. An example of a polynomial of a single indeterminate x is x<sup>2</sup> − 4x + 7. An example in three variables is x<sup>3</sup> + 2xyz<sup>2</sup> − yz + 1
+  - **Quadratic** : A quadratic equation is an equation of the second degree, meaning it contains at least one term that is squared. The standard form is ax² + bx + c = 0 with a, b, and c being constants, or numerical coefficients, and x is an unknown variable. One absolute rule is that the first constant “a” cannot be a zero.
+
 **A loss function is a part of a cost function which is a type of an objective function.**
 
 - **Loss Functions**: is usually a function defined on a data point, prediction and label, and measures the penalty.
@@ -23,10 +31,58 @@
   - Divergence between classes can be an objective function but it is barely a cost function, unless you define something artificial, like 1-Divergence, and name it a cost
 <br><br>
 - **Why do Log ?**
+Log-scale informs on relative changes (multiplicative), while linear-scale informs on absolute changes (additive). When do you use each? When you care about relative changes, use the log-scale; when you care about absolute changes, use linear-scale. This is true for distributions, but also for any quantity or changes in quantities.
+
+  Note, I use the word "care" here very specifically and intentionally. Without a model or a goal, your question cannot be answered; the model or goal defines which scale is important. If you're trying to model something, and the mechanism acts via a relative change, log-scale is critical to capturing the behavior seen in your data. But if the underlying model's mechanism is additive, you'll want to use linear-scale.
+
+  Example. Stock market.
+  Stock A on day 1: $100. On day 2, $101. Every stock tracking service in the world reports this change in two ways! (1) +$1. (2) +1%. The first is a measure of absolute, additive change; the second a measure of relative change.
+
+  Illustration of relative change vs absolute: Relative change is the same, absolute change is different
+  Stock A goes from $1 to $1.10. Stock B goes from $100 to $110.
+
+  Stock A gained 10%, stock B gained 10% (relative scale, equal)
+  ...but stock A gained 10 cents, while stock B gained $10 (B gained more absolute dollar amount)
+
+  If we convert to log space, relative changes appear as absolute changes.
+
+  Stock A goes from log10($1) to log10($1.10) = 0 to .0413
+  Stock B goes from log10($100) to log10($110) = 2 to 2.0413
+
+  Now, taking the absolute difference in log space, we find that both changed by .0413.
+
+  Both of these measures of change are important, and which one is important to you depends solely on your model of investing. There are two models. (1) Investing a fixed amount of principal, or (2) investing in a fixed number of shares.
+
+  Model 1: Investing with a fixed amount of principal.
+
+  Say yesterday stock A cost $1 per share, and stock B costs $100 a share. Today they both went up by one dollar to $2 and $101 respectively. Their absolute change is identical ($1), but their relative change is dramatically different (100% for A, 1% for B). Given that you have a fixed amount of principal to invest, say $100, you can only afford 1 share of B or 100 shares of A. If you invested yesterday you'd have $200 with A, or $101 with B. So here you "care" about the relative gains, specifically because you have a finite amount of principal.
+
+  Model 2: fixed number of shares.
+
+  In a different scenario, suppose your bank only lets you buy in blocks of 100 shares, and you've decided to invest in 100 shares of A or B. In the previous case, whether you buy A or B your gains will be the same ($100 - i.e. $1 for each share).
+
+  Now suppose we think of a stock value as a random variable fluctuating over time, and we want to come up with a model that reflects generally how stocks behave. And let's say we want to use this model to maximize profit. We compute a probability distribution whose x-values are in units of 'share price', and y-values in probability of observing a given share price. We do this for stock A, and stock B. If you subscribe to the first scenario, where you have a fixed amount of principal you want to invest, then taking the log of these distributions will be informative. Why? What you care about is the shape of the distribution in relative space. Whether a stock goes from 1 to 10, or 10 to 100 doesn't matter to you, right? Both cases are a 10-fold relative gain. This appears naturally in a log-scale distribution in that unit gains correspond to fold gains directly. For two stocks whose mean value is different but whose relative change is identically distributed (they have the same distribution of daily percent changes), their log distributions will be identical in shape just shifted. Conversely, their linear distributions will not be identical in shape, with the higher valued distribution having a higher variance.
+
+  If you were to look at these same distributions in linear, or absolute space, you would think that higher-valued share prices correspond to greater fluctuations. For your investing purposes though, where only relative gains matter, this is not necessarily true.
 <br><br>
-- **Why do Exponents ?**
+- **What is Phi/Chi Score, Z Score ?**
+In statistics, the **phi coefficient** (or mean square contingency coefficient and denoted by φ or rφ) is a measure of association for two binary variables. Introduced by Karl Pearson,[1] this measure is similar to the Pearson correlation coefficient in its interpretation. In fact, a Pearson correlation coefficient estimated for two binary variables will return the phi coefficient.[2] The square of the phi coefficient is related to the chi-squared statistic for a 2×2 contingency table
+
+  The **Chi Square statistic** is commonly used for testing relationships between categorical variables.  The null hypothesis of the Chi-Square test is that no relationship exists on the categorical variables in the population; they are independent.
+  http://math.hws.edu/javamath/ryan/ChiSquare.html
+
+  **z-score** is the number of standard deviations from the mean a data point is. But more technically it’s a measure of how many standard deviations below or above the population mean a raw score is. A z-score is also known as a standard score and it can be placed on a normal distribution curve. Z-scores range from -3 standard deviations (which would fall to the far left of the normal distribution curve) up to +3 standard deviations (which would fall to the far right of the normal distribution curve). In order to use a z-score, you need to know the mean μ and also the population standard deviation σ.
 <br><br>
 - **What is standard deviation, long tail, how do these impact learning ?**
+The **standard deviation** provides some idea about the distribution of scores around the mean (average). The smaller the standard deviation, the more narrow the range between the lowest and highest scores or, more generally, that the scores cluster closely to the average score.
+
+  You might think of it as a measure of "agreement" between raters. If everyone gave the same score, then the standard deviation would be zero and the agreement would be high (or perfect).
+
+  From a more empirical perspective, we assume a normal distribution of scores (which is very true as the sample size increases). In this case it can be said that approximately two-thirds of the scores will fall within the range of plus or minus one standard deviation around the mean (and 90% of the scores would fall between two standard deviations, plus and minus). For example, with a mean score of 50 and standard deviation of 10, we would expect that most scores would fall between 40 and 60 and that nearly all scores would fall between 30 and 70.
+
+  In a rough way, the standard deviation could be considered a measure of the extent to which one's observers agree or disagree with each another. The smaller the standard deviation suggests that people are in more agreement with one another than would be the case with a large standard deviation. Remember, however, that a single "outlying" response can distort the standard deviation and the sense of agreement between Observers. So taking this one important caveat into consideration, looking at the standard deviation can help leaders make a quick determination of whether others see them in the same fashion or not.
+
+  The theory of the **Long Tail** is that our culture and economy is increasingly shifting away from a focus on a relatively small number of "hits" (mainstream products and markets) at the head of the demand curve and toward a huge number of niches in the tail.
 <br><br>
 - **Activation Functions**
   - **ReLU** - This activation function very simple, it says, if you are positive, I will return same value, if you are negative I will return 0. Another way to see ouput is between x & xero. This function is used a lot instead of sigmoid, as it can dramatically improve the performace of the network without sacrificing much accuracy. Since it's derivative is 1 for positive numbers. It is fascinating that this function which barely breaks linearilty can lead to such complex non-linear solutions.
