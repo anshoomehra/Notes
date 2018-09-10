@@ -14,8 +14,8 @@
   - **Logistic Regression**
 <br><br>
 - **Cost Function** is usually more general. It might be a sum of loss functions over your training set plus some model complexity penalty (regularization)
-  - Mean Absolute Error (MAE), L1
-  - Mean Squared Error (MSE), L2
+  - **Mean Absolute Error (MAE), L1**
+  - **Mean Squared Error (MSE), L2**
   - etc..
 <br><br>
 - **Objective Function** is the most general term for any function that you optimize during training. For example, a probability of generating training set in maximum likelihood approach is a well defined objective function, but it is not a loss function nor cost function (however you could define an equivalent cost function). For example:
