@@ -196,3 +196,5 @@ The neural network architectures you've seen so far were trained using the curre
     4. Use Gate
 <br><br>
   - **GRU** - Gated Recurrent Unit It combines Forget & Learn gate into Update Gate & runs this through Combine Gate. It also working with only one Working Memory insteas of LTM and STM - but in practce this works very well.
+<br><br>
+- **Word Embeddings** Word embeddings in particular are interesting because the networks are able to learn semantic relationships between words. For example, the embeddings will know that the male equivalent of a queen is a king.These word embeddings are learned using a model called Word2vec. https://github.com/anshoomehra/udacity-deep-learning/blob/master/embeddings/Skip-Grams-Solution.ipynb
