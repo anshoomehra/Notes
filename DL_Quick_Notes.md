@@ -7,6 +7,8 @@
   - **Polynomial**:
   In mathematics, a polynomial is an expression consisting of variables (also called indeterminates) and coefficients, that involves only the operations of addition, subtraction, multiplication, and non-negative integer exponents of variables. An example of a polynomial of a single indeterminate x is x<sup>2</sup> − 4x + 7. An example in three variables is x<sup>3</sup> + 2xyz<sup>2</sup> − yz + 1
   - **Quadratic** : A quadratic equation is an equation of the second degree, meaning it contains at least one term that is squared. The standard form is ax² + bx + c = 0 with a, b, and c being constants, or numerical coefficients, and x is an unknown variable. One absolute rule is that the first constant “a” cannot be a zero.
+  - **Heuristics**
+  - **Probabilistic **
 
 **A loss function is a part of a cost function which is a type of an objective function.**
 
